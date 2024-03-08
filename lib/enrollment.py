@@ -1,4 +1,5 @@
-from datetime import datetime
+from datetime import datetime, timedelta
+
 class Student:
     def __init__(self, name):
         self.name = name
@@ -15,9 +16,11 @@ class Student:
     def get_enrollments(self):
         return self._enrollments.copy()
 
+    def __str__(self):
+        return f"Student: {self.name}"
+
 class Course:
     def __init__(self, title):
-
         self.title = title
         self._enrollments = []
 
@@ -30,6 +33,8 @@ class Course:
     def get_enrollments(self):
         return self._enrollments.copy()
 
+    def __str__(self):
+        return f"Course: {self.title}"
 
 class Enrollment:
     all = []
@@ -45,3 +50,11 @@ class Enrollment:
 
     def get_enrollment_date(self):
         return self._enrollment_date
+
+    def get_duration_since_enrollment(self):
+        current_date = datetime.now()
+        date_range = [self._enrollment_date + timedelta(days=x) for x in range((current_date - self._enrollment_date).days + 1)]
+        return date_range
+
+    def __str__(self):
+        return f"Enrollment: {self.student.name} in {self.course.title} on {self._enrollment_date}"
